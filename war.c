@@ -31,7 +31,7 @@
 
 // --- Função Principal (main) ---
 // Função principal que orquestra o fluxo do jogo, chamando as outras funções em ordem.
-int main() {
+
     // 1. Configuração Inicial (Setup):
     // - Define o locale para português.
     // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
@@ -47,12 +47,101 @@ int main() {
     //   - Opção 2: Verifica se a condição de vitória foi alcançada e informa o jogador.
     //   - Opção 0: Encerra o jogo.
     // - Pausa a execução para que o jogador possa ler os resultados antes da próxima rodada.
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+//função para limpar o buffer
+void limparbffer(){
+    int a;
+    while((a = getchar()) != '\n' && a != EOF);
+}
+
+// constantes goblais
+//#define MAX_STRING 30
+#define REINOS 5
+
+//struct para cadastrar os territorios
+typedef struct{
+    char nome[30];
+    char cor[10];
+    int tropas;
+}Territorio;
+
+//código principal
+int main(){
+
+    Territorio nacao[REINOS];
+    int max_territorio = 0;
+    int option;
+
+    //apresentação do jogo
+    printf("=====THE WAR GAME=====\n");
+    printf("Sentido soldado! \nseja bem vindo ao THE WAR onde a unica regra e a sobrevivência de sua nação");
+    printf("\n=============================\n"); 
+
+    do{
+
+        printf("--------------------------------------------------\n");
+
+        //opção do menu interativo
+        printf("Para inicar selecione uma das opçõesa a seguir: \n");
+        printf("1 - Registrar Novo Territorio.\n");
+        printf("2 - Listar Territorios existentes.\n");
+        printf("0 - sair\n");
+
+        printf("--------------------------------------------------\n");
+
+        //leitura da entrado do usuário
+        scanf("%d", &option);
+        limparbffer();
+
+        switch (option){
+        case 1:
+            
+            if(max_territorio < REINOS){
+
+                printf("Digite o Nome da Nação: \n");
+                fgets(nacao[max_territorio].nome, 30, stdin);
+
+                printf("Digite a Cor da Sua Nação: \n");
+                fgets(nacao[max_territorio].cor, 10, stdin);
+               
+                printf("Digite a Quantidade de suas tropas: \n");
+                scanf("%d", &nacao[max_territorio].tropas);
+
+                nacao[max_territorio].nome[strcspn(nacao[max_territorio].nome, "\n")] = '\0';
+                nacao[max_territorio].cor[strcspn(nacao[max_territorio].cor, "\n")] = '\0';
+
+                max_territorio++;
+
+                printf("Territori Cadastrado com Sucesso...\n");    
+            }else{
+                printf("Territorio não cadastrado! O numero de territorios atingiu o limite.");
+            }    
+            break;
+            case 2: //listar territorios
+
+                for(int i = 0; i <  max_territorio; i++){
+                    printf("Territorio %d\n", i + 1);
+                    printf("Nome: %s\n", nacao[i].nome);
+                    printf("Cor: %s\n", nacao[i].cor);
+                    printf("tropas: %d\n", nacao[i].tropas);
+                    printf("-------------------------------\n");
+                }
+                printf("Pressione ENTER para continuar...\n");
+
+        default:
+            break;
+        }
+
+    }while (option != 3);
+    return 0;
+}
     // 3. Limpeza:
     // - Ao final do jogo, libera a memória alocada para o mapa para evitar vazamentos de memória.
 
-    return 0;
-}
+
 
 // --- Implementação das Funções ---
 
